@@ -116,7 +116,7 @@ public static class ShaderCompile
 		return results;
 	}
 
-	// Mounted null in ShaderCompiler.exe, Assets doesn't contain all projects in editor
+	// Mounted null in ShaderCompiler, Assets doesn't contain all projects in editor
 	internal static BaseFileSystem FileSystem => EngineFileSystem.Mounted ?? EngineFileSystem.Assets;
 
 	static async Task<Results> CompileShader( ShaderSource s, ShaderCompileOptions compileOptions, CancellationToken token )

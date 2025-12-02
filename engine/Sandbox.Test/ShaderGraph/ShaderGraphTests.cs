@@ -135,7 +135,7 @@ public class ShaderGraphTests
 	}
 
 	/// <summary>
-	/// Test that we can create a shader graph, generate shader code, and compile it using shadercompiler.exe
+	/// Test that we can create a shader graph, generate shader code, and compile it using shadercompiler
 	/// </summary>
 	[TestMethod]
 	public async Task ShaderCompilation()
@@ -157,13 +157,26 @@ public class ShaderGraphTests
 		File.WriteAllText( shaderPath, shaderCode );
 		Console.WriteLine( $"Wrote shader to: {shaderPath}" );
 
-		// Find shadercompiler.exe
-		var shaderCompilerPath = Path.Combine( gameDir, "bin", "managed", "shadercompiler.exe" );
-		Assert.IsTrue( File.Exists( shaderCompilerPath ), $"Shader compiler not found at: {shaderCompilerPath}" );
+		// Find shadercompiler
+		string shaderCompilerPath = null;
+		if ( OperatingSystem.IsWindows() )
+		{
+			shaderCompilerPath = Path.Combine( gameDir, "bin", "managed", "ShaderCompiler.exe" );
+			Assert.IsTrue( File.Exists( shaderCompilerPath ), $"Shader compiler not found at: {shaderCompilerPath}" );
+		}
+		else if ( OperatingSystem.IsLinux() || OperatingSystem.IsMacOS() ) // Linux and Mac should be the same
+		{
+			shaderCompilerPath = Path.Combine( gameDir, "bin", "managed", "ShaderCompiler" );
+			Assert.IsTrue( File.Exists( shaderCompilerPath ), $"Shader compiler not found at: {shaderCompilerPath}" );
+		}
+		else
+		{
+			Assert.Fail( "Unsupported OS for shader compilation test" ); // TODO: Maybe handle this better?
+		}
 
-		// Run shadercompiler.exe on this specific shadershader
+		// Run shadercompiler on this specific shadershader
 		var success = await RunShaderCompiler( shaderCompilerPath, gameDir, shaderPath );
-		Assert.IsTrue( success, "Shader compilation with shadercompiler.exe failed" );
+		Assert.IsTrue( success, "Shader compilation with shadercompiler failed" );
 
 		// Check if shader_c file was created
 		var shaderCPath = shaderPath + "_c";
