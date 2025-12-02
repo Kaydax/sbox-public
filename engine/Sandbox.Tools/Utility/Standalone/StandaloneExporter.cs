@@ -287,8 +287,8 @@ public partial class StandaloneExporter
 				}
 			}
 
-			QueueAll( $"{engineDir}/addons/base/assets/ui", BuildStep.CopyBaseAssets ); // Necessary
-			QueueAll( $"{engineDir}/addons/base/assets/fonts", BuildStep.CopyBaseAssets ); // Necessary
+			QueueAll( $"{engineDir}/addons/base/Assets/ui", BuildStep.CopyBaseAssets ); // Necessary
+			QueueAll( $"{engineDir}/addons/base/Assets/fonts", BuildStep.CopyBaseAssets ); // Necessary
 		}
 
 		//

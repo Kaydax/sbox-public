@@ -3,7 +3,19 @@
 	/// <summary>
 	/// Interop will try to load dlls from this path, e.g bin/win64/
 	/// </summary>
-	internal static string NativeDllPath { get; set; } = "bin/win64/";
+	internal static string NativeDllPath { get; set; } = GetPlatformDllPath();
+
+	private static string GetPlatformDllPath()
+	{
+		if ( OperatingSystem.IsWindows() )
+			return "bin/win64/";
+		else if ( OperatingSystem.IsLinux() )
+			return "bin/linuxsteamrt64/";
+		else if ( OperatingSystem.IsMacOS() )
+			return "bin/osxarm64/";
+
+		throw new PlatformNotSupportedException( "Unsupported OS platform" );
+	}
 
 	/// <summary>
 	/// From here we'll open the native dlls and inject our function pointers into them,
@@ -20,7 +32,14 @@
 		Managed.SandboxEngine.NativeInterop.Initialize();
 
 		// set engine paths etc
-		NativeEngine.EngineGlobal.Plat_SetModuleFilename( $"{gameFolder}\\sbox.exe" );
+		if ( OperatingSystem.IsWindows() )
+		{
+			NativeEngine.EngineGlobal.Plat_SetModuleFilename( $"{gameFolder}/sbox.exe" );
+		}
+		else if ( OperatingSystem.IsLinux() || OperatingSystem.IsMacOS() )
+		{
+			NativeEngine.EngineGlobal.Plat_SetModuleFilename( $"{gameFolder}/sbox" );
+		}
 		NativeEngine.EngineGlobal.Plat_SetCurrentDirectory( $"{gameFolder}" );
 	}
 }

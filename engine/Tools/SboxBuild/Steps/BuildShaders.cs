@@ -11,7 +11,15 @@ internal class BuildShaders( string name, bool forced = false ) : Step( name )
 		{
 			string rootDir = Directory.GetCurrentDirectory();
 			string gameDir = Path.Combine( rootDir, "game" );
-			string shaderCompilerPath = Path.Combine( gameDir, "bin", "managed", "shadercompiler.exe" );
+			string shaderCompilerPath = null;
+			if ( OperatingSystem.IsWindows() )
+			{
+				shaderCompilerPath = Path.Combine( gameDir, "bin", "managed", "ShaderCompiler.exe" );
+			}
+			else if ( OperatingSystem.IsLinux() || OperatingSystem.IsMacOS() ) // Linux and Mac should be the same
+			{
+				shaderCompilerPath = Path.Combine( gameDir, "bin", "managed", "ShaderCompiler.dll" );
+			}
 
 			// Verify shader compiler exists
 			if ( !File.Exists( shaderCompilerPath ) )
@@ -38,11 +46,19 @@ internal class BuildShaders( string name, bool forced = false ) : Step( name )
 			arguments += " -f";
 		}
 
+		// On Linux/Mac, we need to run the DLL through dotnet
+		string executable = shaderCompilerPath;
+		if ( OperatingSystem.IsLinux() || OperatingSystem.IsMacOS() )
+		{
+			executable = "dotnet";
+			arguments = $"\"{shaderCompilerPath}\" {arguments}";
+		}
+
 		// Track if any shaders were compiled
 		var shaderCompiled = false;
 
 		bool success = Utility.RunProcess(
-			shaderCompilerPath,
+			executable,
 			arguments,
 			workingDirectory,
 			onDataReceived: ( sender, e ) =>

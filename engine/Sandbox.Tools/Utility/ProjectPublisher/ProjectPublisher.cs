@@ -514,7 +514,7 @@ public partial class ProjectPublisher
 	{
 		// Core/base shaders should never be uploaded
 		// Ideally I'd just check against mod_base and mod_core but we have weird c# filesystem
-		if ( a.AbsolutePath.Contains( "/addons/base/assets/shaders/", StringComparison.OrdinalIgnoreCase ) ) return false;
+		if ( a.AbsolutePath.Contains( "/addons/base/Assets/shaders/", StringComparison.OrdinalIgnoreCase ) ) return false;
 		if ( a.AbsolutePath.Contains( "/core/shaders/", StringComparison.OrdinalIgnoreCase ) ) return false;
 
 		return true;

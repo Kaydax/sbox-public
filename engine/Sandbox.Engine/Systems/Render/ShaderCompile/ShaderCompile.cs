@@ -74,7 +74,19 @@ public static class ShaderCompile
 		if ( NativeEngine.EngineGlobal.AppIsDedicatedServer() )
 			return;
 
-		string dllName = "vfx_vulkan.dll";
+		string dllName = null;
+		if ( OperatingSystem.IsWindows() )
+		{
+			dllName = "vfx_vulkan.dll";
+		}
+		else if ( OperatingSystem.IsLinux() )
+		{
+			dllName = "libvfx_vulkan.so";
+		}
+		else if ( OperatingSystem.IsMacOS() )
+		{
+			dllName = "vfx_vulkan.dylib";
+		}
 
 		if ( !native.IsNull )
 			return;
@@ -116,7 +128,7 @@ public static class ShaderCompile
 		return results;
 	}
 
-	// Mounted null in ShaderCompiler.exe, Assets doesn't contain all projects in editor
+	// Mounted null in ShaderCompiler, Assets doesn't contain all projects in editor
 	internal static BaseFileSystem FileSystem => EngineFileSystem.Mounted ?? EngineFileSystem.Assets;
 
 	static async Task<Results> CompileShader( ShaderSource s, ShaderCompileOptions compileOptions, CancellationToken token )
