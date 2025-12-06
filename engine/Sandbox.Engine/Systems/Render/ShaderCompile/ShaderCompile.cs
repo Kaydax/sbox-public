@@ -74,7 +74,19 @@ public static class ShaderCompile
 		if ( NativeEngine.EngineGlobal.AppIsDedicatedServer() )
 			return;
 
-		string dllName = "vfx_vulkan.dll";
+		string dllName = null;
+		if ( OperatingSystem.IsWindows() )
+		{
+			dllName = "vfx_vulkan.dll";
+		}
+		else if ( OperatingSystem.IsLinux() )
+		{
+			dllName = "libvfx_vulkan.so";
+		}
+		else if ( OperatingSystem.IsMacOS() )
+		{
+			dllName = "vfx_vulkan.dylib";
+		}
 
 		if ( !native.IsNull )
 			return;

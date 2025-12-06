@@ -18,7 +18,7 @@ internal class BuildShaders( string name, bool forced = false ) : Step( name )
 			}
 			else if ( OperatingSystem.IsLinux() || OperatingSystem.IsMacOS() ) // Linux and Mac should be the same
 			{
-				shaderCompilerPath = Path.Combine( gameDir, "bin", "managed", "ShaderCompiler" );
+				shaderCompilerPath = Path.Combine( gameDir, "bin", "managed", "ShaderCompiler.dll" );
 			}
 
 			// Verify shader compiler exists
@@ -46,11 +46,19 @@ internal class BuildShaders( string name, bool forced = false ) : Step( name )
 			arguments += " -f";
 		}
 
+		// On Linux/Mac, we need to run the DLL through dotnet
+		string executable = shaderCompilerPath;
+		if ( OperatingSystem.IsLinux() || OperatingSystem.IsMacOS() )
+		{
+			executable = "dotnet";
+			arguments = $"\"{shaderCompilerPath}\" {arguments}";
+		}
+
 		// Track if any shaders were compiled
 		var shaderCompiled = false;
 
 		bool success = Utility.RunProcess(
-			shaderCompilerPath,
+			executable,
 			arguments,
 			workingDirectory,
 			onDataReceived: ( sender, e ) =>
