@@ -14,13 +14,9 @@ public static class Launcher
 			// we pass the command line, so we can pass it on to the sbox-launcher (for -game etc)
 			ProcessStartInfo info = null;
 			if (OperatingSystem.IsWindows())
-			{
 				info = new ProcessStartInfo("sbox-launcher.exe");
-			}
 			else if (OperatingSystem.IsLinux() || OperatingSystem.IsMacOS())
-			{
 				info = new ProcessStartInfo("sbox-launcher");
-			}
 
 			if (info != null)
 			{

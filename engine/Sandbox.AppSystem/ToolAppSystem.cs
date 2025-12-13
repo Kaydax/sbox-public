@@ -103,17 +103,11 @@ public class ToolAppSystem : AppSystem, IDisposable
 			Environment.CurrentDirectory = gameRoot.FullName;
 			string nativeDllPath = null;
 			if ( OperatingSystem.IsWindows() )
-			{
 				nativeDllPath = $"{gameRoot.FullName}/bin/win64";
-			}
 			else if ( OperatingSystem.IsLinux() )
-			{
 				nativeDllPath = $"{gameRoot.FullName}/bin/linuxsteamrt64";
-			}
 			else if ( OperatingSystem.IsMacOS() )
-			{
 				nativeDllPath = $"{gameRoot.FullName}/bin/osxarm64";
-			}
 
 
 			//

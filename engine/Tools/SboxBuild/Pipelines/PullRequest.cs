@@ -26,10 +26,10 @@ internal class PullRequest
 		{
 			new BuildManaged( "Compile Managed", clean: true )
 		};
+
 		if ( OperatingSystem.IsWindows() )
-		{
 			managedSteps.Add( new NvPatch( "NvPatch" ) );
-		}
+
 		builder.AddStepGroup( "Managed Build", managedSteps );
 
 		// TODO idk if any of this works on linux yet 

@@ -33,13 +33,10 @@
 
 		// set engine paths etc
 		if ( OperatingSystem.IsWindows() )
-		{
 			NativeEngine.EngineGlobal.Plat_SetModuleFilename( $"{gameFolder}/sbox.exe" );
-		}
 		else if ( OperatingSystem.IsLinux() || OperatingSystem.IsMacOS() )
-		{
 			NativeEngine.EngineGlobal.Plat_SetModuleFilename( $"{gameFolder}/sbox" );
-		}
+
 		NativeEngine.EngineGlobal.Plat_SetCurrentDirectory( $"{gameFolder}" );
 	}
 }

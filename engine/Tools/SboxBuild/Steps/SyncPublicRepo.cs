@@ -745,9 +745,7 @@ internal class SyncPublicRepo( string name, bool dryRun = false ) : Step( name )
 		}
 
 		if ( OperatingSystem.IsWindows() )
-		{
 			return "python";
-		}
 
 		return "python3";
 	}

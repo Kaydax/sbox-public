@@ -20,17 +20,11 @@ public abstract class Platform
 	public static Platform Create()
 	{
 		if ( OperatingSystem.IsWindows() )
-		{
 			return new WindowsPlatform();
-		}
 		else if ( OperatingSystem.IsLinux() )
-		{
 			return new LinuxPlatform();
-		}
 		else if ( OperatingSystem.IsMacOS() )
-		{
 			return new MacOSPlatform();
-		}
 
 		throw new PlatformNotSupportedException( $"Unsupported platform: {RuntimeInformation.OSDescription}" );
 	}

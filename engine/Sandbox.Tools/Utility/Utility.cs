@@ -532,13 +532,10 @@ public static partial class EditorUtility
 		{
 			ProcessStartInfo info = null;
 			if ( OperatingSystem.IsWindows() )
-			{
 				info = new ProcessStartInfo( "sbox-launcher.exe" );
-			}
 			else if ( OperatingSystem.IsLinux() || OperatingSystem.IsMacOS() )
-			{
 				info = new ProcessStartInfo( "sbox-launcher" );
-			}
+
 			if ( info != null )
 			{
 				info.WorkingDirectory = System.Environment.CurrentDirectory;

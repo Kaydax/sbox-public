@@ -13,13 +13,9 @@ internal class BuildShaders( string name, bool forced = false ) : Step( name )
 			string gameDir = Path.Combine( rootDir, "game" );
 			string shaderCompilerPath = null;
 			if ( OperatingSystem.IsWindows() )
-			{
 				shaderCompilerPath = Path.Combine( gameDir, "bin", "managed", "ShaderCompiler.exe" );
-			}
 			else if ( OperatingSystem.IsLinux() || OperatingSystem.IsMacOS() ) // Linux and Mac should be the same
-			{
 				shaderCompilerPath = Path.Combine( gameDir, "bin", "managed", "ShaderCompiler.dll" );
-			}
 
 			// Verify shader compiler exists
 			if ( !File.Exists( shaderCompilerPath ) )

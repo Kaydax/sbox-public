@@ -76,17 +76,11 @@ public static class ShaderCompile
 
 		string dllName = null;
 		if ( OperatingSystem.IsWindows() )
-		{
 			dllName = "vfx_vulkan.dll";
-		}
 		else if ( OperatingSystem.IsLinux() )
-		{
 			dllName = "libvfx_vulkan.so";
-		}
 		else if ( OperatingSystem.IsMacOS() )
-		{
 			dllName = "vfx_vulkan.dylib";
-		}
 
 		if ( !native.IsNull )
 			return;
@@ -98,7 +92,13 @@ public static class ShaderCompile
 
 		// the shader compiler only needs the filesystem interface so we just pass
 		// in the createinterface for that, directly.
-		var createinterface = NativeEngine.CreateInterface.GetCreateInterface( "filesystem_stdio.dll" );
+		IntPtr createinterface = IntPtr.Zero;
+		if ( OperatingSystem.IsWindows() )
+			createinterface = NativeEngine.CreateInterface.GetCreateInterface( "filesystem_stdio.dll" );
+		else if ( OperatingSystem.IsLinux() )
+			createinterface = NativeEngine.CreateInterface.GetCreateInterface( "libfilesystem_stdio.so" );
+		else if ( OperatingSystem.IsMacOS() )
+			createinterface = NativeEngine.CreateInterface.GetCreateInterface( "filesystem_stdio.dylib" );
 
 		native.Init( createinterface );
 	}
